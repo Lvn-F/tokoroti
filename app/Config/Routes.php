@@ -9,10 +9,10 @@ use CodeIgniter\Router\RouteCollection;
 // ---------------------------------------------------------------------
 // Public routes (no auth required)
 // ---------------------------------------------------------------------
-$routes->get('/', 'Auth::login');
-$routes->get('login', 'Auth::login');
-$routes->post('login', 'Auth::attemptLogin');
-$routes->get('logout', 'Auth::logout');
+$routes->get('/', 'C_Auth::login');
+$routes->get('login', 'C_Auth::login');
+$routes->post('login', 'C_Auth::attemptLogin');
+$routes->get('logout', 'C_Auth::logout');
 
 // ---------------------------------------------------------------------
 // Authenticated routes (any logged-in role)
