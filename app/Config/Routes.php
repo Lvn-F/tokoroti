@@ -9,10 +9,10 @@ use CodeIgniter\Router\RouteCollection;
 // ---------------------------------------------------------------------
 // Public routes (no auth required)
 // ---------------------------------------------------------------------
-$routes->get('/', 'C_Auth::login');
-$routes->get('login', 'C_Auth::login');
-$routes->post('login', 'C_Auth::attemptLogin');
-$routes->get('logout', 'C_Auth::logout');
+$routes->get('/', 'Auth::login');
+$routes->get('login', 'Auth::login');
+$routes->post('login', 'Auth::attemptLogin');
+$routes->get('logout', 'Auth::logout');
 
 // ---------------------------------------------------------------------
 // Authenticated routes (any logged-in role)
@@ -24,12 +24,12 @@ $routes->get('dashboard', 'Dashboard::index', ['filter' => 'auth']);
 // later as their modules are built (adjust per-route as needed).
 // ---------------------------------------------------------------------
 $routes->group('kategori', ['filter' => 'auth:admin'], static function ($routes): void {
-    $routes->get('/', 'KategoriProduk::index');
-    $routes->get('create', 'KategoriProduk::create');
-    $routes->post('store', 'KategoriProduk::store');
-    $routes->get('edit/(:num)', 'KategoriProduk::edit/$1');
-    $routes->post('update/(:num)', 'KategoriProduk::update/$1');
-    $routes->get('delete/(:num)', 'KategoriProduk::delete/$1');
+    $routes->get('/', 'C_KategoriProduk::index');
+    $routes->get('create', 'C_KategoriProduk::create');
+    $routes->post('store', 'C_KategoriProduk::store');
+    $routes->get('edit/(:num)', 'C_KategoriProduk::edit/$1');
+    $routes->post('update/(:num)', 'C_KategoriProduk::update/$1');
+    $routes->get('delete/(:num)', 'C_KategoriProduk::delete/$1');
 });
 
 $routes->group('bahan-baku', ['filter' => 'auth:admin,produser'], static function ($routes): void {

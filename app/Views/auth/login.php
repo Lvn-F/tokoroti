@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Toko Roti</title>
-    <link rel="stylesheet" href="../public/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?= base_url('bootstrap/dist/css/bootstrap.min.css') ?>">
     <style>
         body {
             min-height: 100vh;
@@ -97,6 +97,6 @@
     </div>
 </div>
 
-<script src="../public/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="<?= base_url('bootstrap/dist/js/bootstrap.bundle.min.js') ?>"></script>
 </body>
 </html>
