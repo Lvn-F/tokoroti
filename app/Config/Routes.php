@@ -33,21 +33,21 @@ $routes->group('kategori', ['filter' => 'auth:admin'], static function ($routes)
 });
 
 $routes->group('bahan-baku', ['filter' => 'auth:admin,produser'], static function ($routes): void {
-    $routes->get('/', 'BahanBaku::index');
-    $routes->get('create', 'BahanBaku::create');
-    $routes->post('store', 'BahanBaku::store');
-    $routes->get('edit/(:num)', 'BahanBaku::edit/$1');
-    $routes->post('update/(:num)', 'BahanBaku::update/$1');
-    $routes->get('delete/(:num)', 'BahanBaku::delete/$1');
+    $routes->get('/', 'C_BahanBaku::index');
+    $routes->get('create', 'C_BahanBaku::create');
+    $routes->post('store', 'C_BahanBaku::store');
+    $routes->get('edit/(:num)', 'C_BahanBaku::edit/$1');
+    $routes->post('update/(:num)', 'C_BahanBaku::update/$1');
+    $routes->get('delete/(:num)', 'C_BahanBaku::delete/$1');
 });
 
 $routes->group('produk', ['filter' => 'auth:admin'], static function ($routes): void {
-    $routes->get('/', 'Produk::index');
-    $routes->get('create', 'Produk::create');
-    $routes->post('store', 'Produk::store');
-    $routes->get('edit/(:num)', 'Produk::edit/$1');
-    $routes->post('update/(:num)', 'Produk::update/$1');
-    $routes->get('delete/(:num)', 'Produk::delete/$1');
+    $routes->get('/', 'C_Produk::index');
+    $routes->get('create', 'C_Produk::create');
+    $routes->post('store', 'C_Produk::store');
+    $routes->get('edit/(:num)', 'C_Produk::edit/$1');
+    $routes->post('update/(:num)', 'C_Produk::update/$1');
+    $routes->get('delete/(:num)', 'C_Produk::delete/$1');
 });
 
 // ---------------------------------------------------------------------
