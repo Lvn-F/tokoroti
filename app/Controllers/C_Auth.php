@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\M_User;
 
-class Auth extends BaseController
+class C_Auth extends BaseController
 {
     protected M_User $userModel;
 

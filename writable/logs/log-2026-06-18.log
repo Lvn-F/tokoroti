@@ -293,3 +293,62 @@ in APPPATH\Controllers\BaseController.php on line 61.
  6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
  7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
  8 SYSTEMPATH\rewrite.php(44): require_once('D:\\xampp3\\htdocs\\tokoroti\\public\\index.php')
+DEBUG - 2026-06-18 20:28:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-06-18 20:29:41 --> CSRF token verified.
+DEBUG - 2026-06-18 20:29:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-06-18 20:29:41 --> Error: Call to undefined function App\Controllers\logActivity()
+[Method: POST, Route: kategori/store]
+in APPPATH\Controllers\BaseController.php on line 61.
+ 1 APPPATH\Controllers\C_Kategoriproduk.php(65): App\Controllers\BaseController->logActivity('Menambah kategori: Roti Tawar', 'Kategori Produk')
+ 2 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\C_KategoriProduk->store()
+ 3 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\C_KategoriProduk))
+ 4 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('D:\\xampp3\\htdocs\\tokoroti\\public\\index.php')
+INFO - 2026-06-18 20:30:13 --> CSRF token verified.
+DEBUG - 2026-06-18 20:30:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-06-18 20:30:13 --> Error: Call to undefined function App\Controllers\logActivity()
+[Method: POST, Route: kategori/store]
+in APPPATH\Controllers\BaseController.php on line 61.
+ 1 APPPATH\Controllers\C_Kategoriproduk.php(65): App\Controllers\BaseController->logActivity('Menambah kategori: Roti Tawar', 'Kategori Produk')
+ 2 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\C_KategoriProduk->store()
+ 3 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\C_KategoriProduk))
+ 4 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('D:\\xampp3\\htdocs\\tokoroti\\public\\index.php')
+DEBUG - 2026-06-18 20:31:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-06-18 20:31:55 --> CSRF token verified.
+DEBUG - 2026-06-18 20:31:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-06-18 20:31:55 --> Error: Call to undefined function App\Controllers\logActivity()
+[Method: POST, Route: kategori/store]
+in APPPATH\Controllers\BaseController.php on line 61.
+ 1 APPPATH\Controllers\C_Kategoriproduk.php(65): App\Controllers\BaseController->logActivity('Menambah kategori: Roti Tawar', 'Kategori Produk')
+ 2 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\C_KategoriProduk->store()
+ 3 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\C_KategoriProduk))
+ 4 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('D:\\xampp3\\htdocs\\tokoroti\\public\\index.php')
+DEBUG - 2026-06-18 20:35:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-06-18 20:35:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-06-18 20:35:57 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-06-18 20:35:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-06-18 20:36:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-06-18 20:36:10 --> Error: Call to undefined function App\Controllers\logActivity()
+[Method: GET, Route: kategori/delete/2]
+in APPPATH\Controllers\BaseController.php on line 61.
+ 1 APPPATH\Controllers\C_Kategoriproduk.php(143): App\Controllers\BaseController->logActivity('Menghapus kategori: Roti Tawar', 'Kategori Produk')
+ 2 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\C_KategoriProduk->delete(2)
+ 3 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\C_KategoriProduk))
+ 4 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('D:\\xampp3\\htdocs\\tokoroti\\public\\index.php')
+DEBUG - 2026-06-18 20:36:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-06-18 20:36:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
