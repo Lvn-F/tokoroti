@@ -59,7 +59,7 @@
                         <th>Satuan</th>
                         <th class="text-end">Stok</th>
                         <th class="text-end">Stok Min.</th>
-                        <th class="text-end">Harga Beli</th>
+                        <th class="text-end">Harga Beli/Satuan</th>
                         <th style="width:120px;" class="text-center">Aksi</th>
                     </tr>
                 </thead>

@@ -48,23 +48,28 @@ $routes->group('produk', ['filter' => 'auth:admin'], static function ($routes): 
     $routes->get('edit/(:num)', 'C_Produk::edit/$1');
     $routes->post('update/(:num)', 'C_Produk::update/$1');
     $routes->get('delete/(:num)', 'C_Produk::delete/$1');
+
+    $routes->get('resep/(:num)', 'C_Resep::index/$1');
+    $routes->post('resep/(:num)/store', 'C_Resep::store/$1');
+    $routes->get('resep/(:num)/delete/(:num)', 'C_Resep::delete/$1/$2');
 });
 
 // ---------------------------------------------------------------------
 // Transaksi — produser handles produksi, kasir handles penjualan.
 // ---------------------------------------------------------------------
 $routes->group('produksi', ['filter' => 'auth:admin,produser'], static function ($routes): void {
-    $routes->get('/', 'Produksi::index');
-    $routes->get('create', 'Produksi::create');
-    $routes->post('store', 'Produksi::store');
-    $routes->get('detail/(:num)', 'Produksi::detail/$1');
+    $routes->get('/', 'C_Produksi::index');
+    $routes->get('create', 'C_Produksi::create');
+    $routes->post('store', 'C_Produksi::store');
+    $routes->get('detail/(:num)', 'C_Produksi::detail/$1');
+    $routes->post('update-status/(:num)', 'C_Produksi::updateStatus/$1');
 });
 
 $routes->group('penjualan', ['filter' => 'auth:admin,kasir'], static function ($routes): void {
-    $routes->get('/', 'Penjualan::index');
-    $routes->get('create', 'Penjualan::create');
-    $routes->post('store', 'Penjualan::store');
-    $routes->get('detail/(:num)', 'Penjualan::detail/$1');
+    $routes->get('/', 'C_Penjualan::index');
+    $routes->get('create', 'C_Penjualan::create');
+    $routes->post('store', 'C_Penjualan::store');
+    $routes->get('detail/(:num)', 'C_Penjualan::detail/$1');
 });
 
 // ---------------------------------------------------------------------

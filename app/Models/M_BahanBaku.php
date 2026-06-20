@@ -34,11 +34,11 @@ class M_BahanBaku extends Model
      *
      * @var list<string>
      */
-    public const SATUAN = ['pcs', 'kg', 'gram', 'liter', 'ml'];
+    public const SATUAN = ['pcs', 'kg', 'gram', 'liter', 'ml', 'butir','sdt'];
 
     protected $validationRules = [
         'nama_bahan'   => 'required|max_length[100]',
-        'satuan'       => 'required|in_list[pcs,kg,gram,liter,ml]',
+        'satuan'       => 'required|in_list[pcs,kg,gram,liter,ml,butir,sdt]',
         'stok'         => 'permit_empty|decimal',
         'stok_minimum' => 'permit_empty|decimal',
         'harga_beli'   => 'required|decimal',
@@ -107,5 +107,12 @@ class M_BahanBaku extends Model
     public function isLowStock(array $bahan): bool
     {
         return (float) $bahan['stok'] <= (float) $bahan['stok_minimum'];
+    }
+    /**
+     * Count bahan baku currently at/below their minimum stock threshold.
+     */
+    public function countLowStock(): int
+    {
+        return $this->where('stok <=', 'stok_minimum', false)->countAllResults();
     }
 }

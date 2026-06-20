@@ -130,7 +130,7 @@
                         <!-- Harga beli -->
                         <div class="col-12 col-md-4 mb-3">
                             <label for="harga_beli" class="form-label fw-semibold">
-                                Harga Beli <span class="text-danger">*</span>
+                                Harga Beli/Satuan <span class="text-danger">*</span>
                             </label>
                             <div class="input-group">
                                 <span class="input-group-text">Rp</span>

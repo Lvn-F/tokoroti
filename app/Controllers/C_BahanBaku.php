@@ -51,7 +51,7 @@ class C_BahanBaku extends BaseController
     {
         $rules = [
             'nama_bahan'   => 'required|max_length[100]',
-            'satuan'       => 'required|in_list[pcs,kg,gram,liter,ml]',
+            'satuan'       => 'required|in_list[pcs,kg,gram,liter,ml,butir,sdt]',
             'stok'         => 'permit_empty|decimal',
             'stok_minimum' => 'permit_empty|decimal',
             'harga_beli'   => 'required|decimal',
@@ -116,7 +116,7 @@ class C_BahanBaku extends BaseController
 
         $rules = [
             'nama_bahan'   => 'required|max_length[100]',
-            'satuan'       => 'required|in_list[pcs,kg,gram,liter,ml]',
+            'satuan'       => 'required|in_list[pcs,kg,gram,liter,ml,butir,sdt]',
             'stok'         => 'permit_empty|decimal',
             'stok_minimum' => 'permit_empty|decimal',
             'harga_beli'   => 'required|decimal',

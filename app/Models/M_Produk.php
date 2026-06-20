@@ -129,4 +129,11 @@ class M_Produk extends Model
 
         return base_url(self::UPLOAD_PATH . $filename);
     }
+    /**
+     * Count active products and total stock value (for dashboard cards).
+     */
+    public function countActive(): int
+    {
+        return $this->where('status', 'active')->countAllResults();
+    }
 }

@@ -1,4 +1,6 @@
 public/bootstrap/
 public/examples/
 public/uploads/produk/
-writable/
+writable/debugbar
+writable/logs
+writable/sessions

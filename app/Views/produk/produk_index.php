@@ -122,6 +122,11 @@
                                                 data-nama="<?= esc($p['nama_produk']) ?>">
                                             <i class="bi bi-trash3"></i>
                                         </button>
+                                        <a href="<?= site_url('produk/resep/' . $p['id_produk']) ?>"
+                                            class="btn btn-sm btn-outline-info"
+                                            title="Kelola Resep">
+                                            <i class="bi bi-list-check"></i>
+                                        </a>
                                     </div>
                                 </td>
                             </tr>
