@@ -64,6 +64,19 @@
 
         /* ── Card subtle border ─────────────────────────────── */
         .card { border-color: rgba(255,255,255,.08); }
+        /* ── Theme-safe status row highlighting (replaces table-danger/table-success) ── */
+        .row-danger {
+            background-color: rgba(220, 53, 69, .12) !important;
+        }
+        .row-danger:hover {
+            background-color: rgba(220, 53, 69, .2) !important;
+        }
+        .row-warning {
+            background-color: rgba(255, 193, 7, .12) !important;
+        }
+        .row-warning:hover {
+            background-color: rgba(255, 193, 7, .2) !important;
+        }
     </style>
 
     <?= $this->renderSection('styles') ?>
@@ -146,6 +159,7 @@
                 : 'bi bi-sun-fill';
         }
         localStorage.setItem(STORAGE_KEY, theme);
+        document.dispatchEvent(new CustomEvent('themechange', { detail: { theme } }));
     }
 
     // Load saved preference (default: dark)

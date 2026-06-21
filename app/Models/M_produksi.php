@@ -142,4 +142,24 @@ class M_Produksi extends Model
 
         return $result;
     }
+    /**
+     * Get produksi rows within a date range, joined with produk + user.
+     * Used by the Laporan Produksi module.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public function getByDateRange(string $startDate, string $endDate, string $status = ''): array
+    {
+        $builder = $this->select('produksi.*, produk.nama_produk, produk.kode_produk as kode_produk_ref, users.nama_user')
+            ->join('produk', 'produk.id_produk = produksi.id_produk', 'left')
+            ->join('users', 'users.id_user = produksi.id_user', 'left')
+            ->where('produksi.tanggal_produksi >=', $startDate)
+            ->where('produksi.tanggal_produksi <=', $endDate);
+
+        if ($status !== '') {
+            $builder->where('produksi.status', $status);
+        }
+
+        return $builder->orderBy('produksi.tanggal_produksi', 'ASC')->findAll();
+    }
 }

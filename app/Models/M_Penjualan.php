@@ -202,4 +202,35 @@ class M_Penjualan extends Model
 
         return ['labels' => $labels, 'values' => $values];
     }
+
+    /**
+     * Get completed transactions within a date range, joined with kasir name.
+     * Used by the Laporan Penjualan module (table view, PDF, Excel).
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public function getByDateRange(string $startDate, string $endDate): array
+    {
+        return $this->select('penjualan.*, users.nama_user')
+            ->join('users', 'users.id_user = penjualan.id_kasir', 'left')
+            ->where('penjualan.status', 'completed')
+            ->where('DATE(penjualan.tanggal_penjualan) >=', $startDate)
+            ->where('DATE(penjualan.tanggal_penjualan) <=', $endDate)
+            ->orderBy('penjualan.tanggal_penjualan', 'ASC')
+            ->findAll();
+    }
+
+    /**
+     * Sum of total_harga for a date range (completed only).
+     */
+    public function sumByDateRange(string $startDate, string $endDate): float
+    {
+        $result = $this->selectSum('total_harga')
+            ->where('status', 'completed')
+            ->where('DATE(tanggal_penjualan) >=', $startDate)
+            ->where('DATE(tanggal_penjualan) <=', $endDate)
+            ->first();
+
+        return (float) ($result['total_harga'] ?? 0);
+    }
 }

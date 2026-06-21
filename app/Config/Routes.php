@@ -76,8 +76,13 @@ $routes->group('penjualan', ['filter' => 'auth:admin,kasir'], static function ($
 // Laporan — admin only for now.
 // ---------------------------------------------------------------------
 $routes->group('laporan', ['filter' => 'auth:admin'], static function ($routes): void {
-    $routes->get('penjualan', 'Laporan::penjualan');
-    $routes->get('produksi', 'Laporan::produksi');
+    $routes->get('penjualan', 'C_Laporan::penjualan');
+    $routes->get('penjualan/export-pdf', 'C_Laporan::exportPenjualanPdf');
+    $routes->get('penjualan/export-excel', 'C_Laporan::exportPenjualanExcel');
+
+    $routes->get('produksi', 'C_Laporan::produksi');
+    $routes->get('produksi/export-pdf', 'C_Laporan::exportProduksiPdf');
+    $routes->get('produksi/export-excel', 'C_Laporan::exportProduksiExcel');
 });
 
 // ---------------------------------------------------------------------

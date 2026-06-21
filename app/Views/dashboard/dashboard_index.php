@@ -196,12 +196,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
 <script>
 (function () {
-    const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
-    const gridColor = isDark ? 'rgba(255,255,255,.08)' : 'rgba(0,0,0,.08)';
-    const textColor = isDark ? '#c7c7c7' : '#555';
+    function getThemeColors() {
+        const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
+        return {
+            grid: isDark ? 'rgba(255,255,255,.08)' : 'rgba(0,0,0,.08)',
+            text: isDark ? '#c7c7c7' : '#555'
+        };
+    }
 
-    // Revenue line chart
-    new Chart(document.getElementById('revenueChart'), {
+    let colors = getThemeColors();
+
+    const revenueChart = new Chart(document.getElementById('revenueChart'), {
         type: 'line',
         data: {
             labels: <?= json_encode($revenueChart['labels']) ?>,
@@ -220,20 +225,16 @@
             responsive: true,
             plugins: { legend: { display: false } },
             scales: {
-                x: { ticks: { color: textColor }, grid: { color: gridColor } },
+                x: { ticks: { color: colors.text }, grid: { color: colors.grid } },
                 y: {
-                    ticks: {
-                        color: textColor,
-                        callback: (val) => 'Rp ' + (val / 1000) + 'k'
-                    },
-                    grid: { color: gridColor }
+                    ticks: { color: colors.text, callback: (val) => 'Rp ' + (val / 1000) + 'k' },
+                    grid: { color: colors.grid }
                 }
             }
         }
     });
 
-    // Produksi status doughnut chart
-    new Chart(document.getElementById('produksiChart'), {
+    const produksiChart = new Chart(document.getElementById('produksiChart'), {
         type: 'doughnut',
         data: {
             labels: ['Proses', 'Selesai', 'Gagal'],
@@ -252,6 +253,21 @@
             plugins: { legend: { display: false } },
             cutout: '65%'
         }
+    });
+
+    // Re-theme both charts whenever the user toggles dark/light mode.
+    document.addEventListener('themechange', function () {
+        colors = getThemeColors();
+
+        revenueChart.options.scales.x.ticks.color = colors.text;
+        revenueChart.options.scales.x.grid.color  = colors.grid;
+        revenueChart.options.scales.y.ticks.color = colors.text;
+        revenueChart.options.scales.y.grid.color  = colors.grid;
+        revenueChart.update();
+
+        // Doughnut has no axes, but update() keeps it consistent if you
+        // add theme-dependent options later.
+        produksiChart.update();
     });
 })();
 </script>

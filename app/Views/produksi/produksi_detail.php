@@ -140,7 +140,7 @@
                                         $available = (float) $r['stok'];
                                         $isShort   = $available < $needed;
                                         ?>
-                                        <tr class="<?= $isShort ? 'table-danger' : '' ?>">
+                                        <tr class="<?= $isShort ? 'row-danger' : '' ?>">
                                             <td>
                                                 <?= esc($r['nama_bahan']) ?>
                                                 <span class="text-secondary small font-monospace">(<?= esc($r['kode_bahan']) ?>)</span>

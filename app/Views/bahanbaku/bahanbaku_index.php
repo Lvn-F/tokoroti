@@ -74,7 +74,7 @@
                     <?php else : ?>
                         <?php foreach ($bahans as $i => $b) : ?>
                             <?php $isLow = $model->isLowStock($b); ?>
-                            <tr class="<?= $isLow ? 'table-danger' : '' ?>">
+                            <tr class="<?= $isLow ? 'row-danger' : '' ?>">
                                 <td class="text-secondary small">
                                     <?= ($pager->getCurrentPage() - 1) * 10 + $i + 1 ?>
                                 </td>
