@@ -13,9 +13,6 @@ class C_KategoriProduk extends BaseController
         $this->model = new M_KategoriProduk();
     }
 
-    // ------------------------------------------------------------------
-    // INDEX — list with search + pagination
-    // ------------------------------------------------------------------
     public function index(): string
     {
         $keyword = $this->request->getGet('q') ?? '';
@@ -31,9 +28,6 @@ class C_KategoriProduk extends BaseController
         return view('kategori/kategori_index', $data);
     }
 
-    // ------------------------------------------------------------------
-    // CREATE — show form
-    // ------------------------------------------------------------------
     public function create(): string
     {
         return view('kategori/kategori_create', [
@@ -41,9 +35,6 @@ class C_KategoriProduk extends BaseController
         ]);
     }
 
-    // ------------------------------------------------------------------
-    // STORE — handle form submission
-    // ------------------------------------------------------------------
     public function store()
     {
         $rules = [
@@ -71,9 +62,6 @@ class C_KategoriProduk extends BaseController
             ->with('success', 'Kategori berhasil ditambahkan.');
     }
 
-    // ------------------------------------------------------------------
-    // EDIT — show form pre-filled
-    // ------------------------------------------------------------------
     public function edit(int $id): string
     {
         $kategori = $this->model->find($id);
@@ -89,9 +77,6 @@ class C_KategoriProduk extends BaseController
         ]);
     }
 
-    // ------------------------------------------------------------------
-    // UPDATE — handle edit form submission
-    // ------------------------------------------------------------------
     public function update(int $id)
     {
         $kategori = $this->model->find($id);
@@ -126,9 +111,6 @@ class C_KategoriProduk extends BaseController
             ->with('success', 'Kategori berhasil diperbarui.');
     }
 
-    // ------------------------------------------------------------------
-    // DELETE — confirm then remove
-    // ------------------------------------------------------------------
     public function delete(int $id)
     {
         $kategori = $this->model->find($id);

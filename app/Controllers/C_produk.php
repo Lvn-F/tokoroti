@@ -11,10 +11,6 @@ class C_Produk extends BaseController
     protected M_Produk $model;
     protected M_KategoriProduk $kategoriModel;
 
-    /**
-     * Folder on disk (relative to FCPATH) where product images live.
-     * Matches M_Produk::UPLOAD_PATH but as a filesystem path, not a URL.
-     */
     protected string $uploadPath;
 
     public function __construct()
@@ -24,9 +20,6 @@ class C_Produk extends BaseController
         $this->uploadPath    = FCPATH . M_Produk::UPLOAD_PATH;
     }
 
-    // ------------------------------------------------------------------
-    // INDEX — list with search + pagination
-    // ------------------------------------------------------------------
     public function index(): string
     {
         $keyword = $this->request->getGet('q') ?? '';
@@ -43,9 +36,6 @@ class C_Produk extends BaseController
         return view('produk/produk_index', $data);
     }
 
-    // ------------------------------------------------------------------
-    // CREATE — show form
-    // ------------------------------------------------------------------
     public function create(): string
     {
         return view('produk/produk_create', [
@@ -55,9 +45,6 @@ class C_Produk extends BaseController
         ]);
     }
 
-    // ------------------------------------------------------------------
-    // STORE — handle form submission (with image upload)
-    // ------------------------------------------------------------------
     public function store()
     {
         $rules = [
@@ -117,9 +104,6 @@ class C_Produk extends BaseController
             ->with('success', 'Produk berhasil ditambahkan.');
     }
 
-    // ------------------------------------------------------------------
-    // EDIT — show form pre-filled
-    // ------------------------------------------------------------------
     public function edit(int $id): string
     {
         $produk = $this->model->find($id);
@@ -133,13 +117,10 @@ class C_Produk extends BaseController
             'pageTitle' => 'Edit Produk',
             'produk'    => $produk,
             'kategoris' => $this->kategoriModel->orderBy('nama_kategori', 'ASC')->findAll(),
-            'model'     => $this->model, // for imageUrl() in the view
+            'model'     => $this->model,
         ]);
     }
 
-    // ------------------------------------------------------------------
-    // UPDATE — handle edit form submission (image optional on edit)
-    // ------------------------------------------------------------------
     public function update(int $id)
     {
         $produk = $this->model->find($id);
@@ -160,7 +141,6 @@ class C_Produk extends BaseController
 
         $messages = [];
 
-        // Image is optional on edit — only validate it if a new file was chosen.
         $newImage = $this->request->getFile('gambar');
 
         if ($newImage !== null && $newImage->isValid() && ! $newImage->hasMoved()) {
@@ -187,7 +167,6 @@ class C_Produk extends BaseController
             'status'      => $this->request->getPost('status') ?: 'active',
         ];
 
-        // Only touch the image field if a new valid file was actually uploaded.
         if ($newImage !== null && $newImage->isValid() && ! $newImage->hasMoved()) {
             $filename = $this->handleUpload($newImage);
 
@@ -212,9 +191,6 @@ class C_Produk extends BaseController
             ->with('success', 'Produk berhasil diperbarui.');
     }
 
-    // ------------------------------------------------------------------
-    // DELETE — confirm then remove (and clean up the image file)
-    // ------------------------------------------------------------------
     public function delete(int $id)
     {
         $produk = $this->model->find($id);
@@ -236,15 +212,6 @@ class C_Produk extends BaseController
             ->with('success', 'Produk berhasil dihapus.');
     }
 
-    // ------------------------------------------------------------------
-    // Helpers
-    // ------------------------------------------------------------------
-
-    /**
-     * Move an uploaded file into the produk upload folder with a
-     * randomized, collision-safe name. Returns the stored filename
-     * on success, or null on failure.
-     */
     protected function handleUpload(?UploadedFile $file): ?string
     {
         if ($file === null || ! $file->isValid() || $file->hasMoved()) {
@@ -268,10 +235,6 @@ class C_Produk extends BaseController
         return $newName;
     }
 
-    /**
-     * Delete a product image file from disk, if it exists.
-     * Safe to call with null/empty filenames — does nothing.
-     */
     protected function deleteImageFile(?string $filename): void
     {
         if (empty($filename)) {

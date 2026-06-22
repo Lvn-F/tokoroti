@@ -26,7 +26,7 @@ class M_Produksi extends Model
     protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
-    protected $updatedField  = ''; // table has no updated_at column
+    protected $updatedField  = '';
     protected $deletedField  = '';
 
     public const STATUS = ['proses', 'selesai', 'gagal'];
@@ -53,8 +53,6 @@ class M_Produksi extends Model
     ];
 
     /**
-     * Search + paginate for the index page. Joins produk for display.
-     *
      * @return array<int, array<string, mixed>>
      */
     public function search(string $keyword = '', string $status = '', int $perPage = 10): array
@@ -80,8 +78,6 @@ class M_Produksi extends Model
     }
 
     /**
-     * Find a single produksi row joined with produk + user name.
-     *
      * @return array<string, mixed>|null
      */
     public function findWithRelations(int $id): ?array
@@ -93,9 +89,6 @@ class M_Produksi extends Model
             ->first();
     }
 
-    /**
-     * Generate the next sequential kode_produksi, e.g. PRO-0001, PRO-0002, ...
-     */
     public function generateKodeProduksi(): string
     {
         $last = $this->select('kode_produksi')
@@ -113,9 +106,6 @@ class M_Produksi extends Model
     }
 
     /**
-     * Whether this produksi's status can still be changed.
-     * Once selesai/gagal, it's terminal — no further transitions.
-     *
      * @param array<string, mixed> $produksi
      */
     public function isEditable(array $produksi): bool
@@ -123,9 +113,6 @@ class M_Produksi extends Model
         return $produksi['status'] === 'proses';
     }
     /**
-     * Count produksi rows grouped by status, returned as an
-     * associative array with all statuses present (zero-filled).
-     *
      * @return array<string, int>
      */
     public function countByStatus(): array
@@ -143,9 +130,6 @@ class M_Produksi extends Model
         return $result;
     }
     /**
-     * Get produksi rows within a date range, joined with produk + user.
-     * Used by the Laporan Produksi module.
-     *
      * @return array<int, array<string, mixed>>
      */
     public function getByDateRange(string $startDate, string $endDate, string $status = ''): array

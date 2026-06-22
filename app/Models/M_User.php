@@ -42,16 +42,11 @@ class M_User extends Model
     ];
 
     /**
-     * Allowed roles for the system. Kept here as a single source of truth
-     * so controllers/filters can reuse it instead of hardcoding strings.
-     *
      * @var list<string>
      */
     public const ROLES = ['admin', 'kasir', 'produser'];
 
     /**
-     * Find an active user by username. Returns null if not found or inactive.
-     *
      * @return array<string, mixed>|null
      */
     public function findActiveByUsername(string $username): ?array
@@ -61,18 +56,12 @@ class M_User extends Model
             ->first();
     }
 
-    /**
-     * Hash a plain password for storage. Use this before insert/update
-     * whenever the password field is being set or changed.
-     */
     public function hashPassword(string $plainPassword): string
     {
         return password_hash($plainPassword, PASSWORD_DEFAULT);
     }
 
     /**
-     * Verify a plain password against the stored hash for a given user row.
-     *
      * @param array<string, mixed> $user A user row (must contain 'password').
      */
     public function verifyPassword(string $plainPassword, array $user): bool
@@ -81,11 +70,9 @@ class M_User extends Model
     }
 
     /**
-     * Create a new user with the password automatically hashed.
+     * @param array<string, mixed> $data
      *
-     * @param array<string, mixed> $data Must include 'password' as plain text.
-     *
-     * @return int|false Insert ID on success, false on validation/db failure.
+     * @return int|false
      */
     public function createUser(array $data): int|false
     {
@@ -99,10 +86,6 @@ class M_User extends Model
     }
 
     /**
-     * Update an existing user. If 'password' is present and non-empty,
-     * it will be (re)hashed; if omitted/empty, the existing password
-     * is left untouched (common pattern for "edit user" forms).
-     *
      * @param array<string, mixed> $data
      */
     public function updateUser(int $idUser, array $data): bool

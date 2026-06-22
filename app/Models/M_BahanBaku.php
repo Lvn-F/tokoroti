@@ -29,9 +29,6 @@ class M_BahanBaku extends Model
     protected $deletedField  = '';
 
     /**
-     * Allowed units. Single source of truth for both validation
-     * and the <select> dropdown in views.
-     *
      * @var list<string>
      */
     public const SATUAN = ['pcs', 'kg', 'gram', 'liter', 'ml', 'butir','sdt'];
@@ -60,8 +57,6 @@ class M_BahanBaku extends Model
     ];
 
     /**
-     * Search + paginate for the index page.
-     *
      * @return array<int, array<string, mixed>>
      */
     public function search(string $keyword = '', int $perPage = 10): array
@@ -78,11 +73,6 @@ class M_BahanBaku extends Model
         return $this->paginate($perPage);
     }
 
-    /**
-     * Generate the next sequential kode_bahan, e.g. BHN-0001, BHN-0002, ...
-     * Looks at the highest existing numeric suffix so it keeps working
-     * correctly even if rows are deleted out of order.
-     */
     public function generateKodeBahan(): string
     {
         $last = $this->select('kode_bahan')
@@ -100,17 +90,12 @@ class M_BahanBaku extends Model
     }
 
     /**
-     * Whether a given stock row is at or below its minimum threshold.
-     *
      * @param array<string, mixed> $bahan A bahan_baku row (must contain 'stok', 'stok_minimum').
      */
     public function isLowStock(array $bahan): bool
     {
         return (float) $bahan['stok'] <= (float) $bahan['stok_minimum'];
     }
-    /**
-     * Count bahan baku currently at/below their minimum stock threshold.
-     */
     public function countLowStock(): int
     {
         return $this->where('stok <=', 'stok_minimum', false)->countAllResults();

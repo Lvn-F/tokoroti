@@ -19,9 +19,6 @@ class C_Penjualan extends BaseController
         $this->produkModel = new M_Produk();
     }
 
-    // ------------------------------------------------------------------
-    // INDEX — list with search + status filter + pagination
-    // ------------------------------------------------------------------
     public function index(): string
     {
         $keyword = $this->request->getGet('q') ?? '';
@@ -40,9 +37,6 @@ class C_Penjualan extends BaseController
         return view('penjualan/penjualan_index', $data);
     }
 
-    // ------------------------------------------------------------------
-    // CREATE — POS-style form: pick products, qty, payment
-    // ------------------------------------------------------------------
     public function create(): string
     {
         return view('penjualan/penjualan_create', [
@@ -56,10 +50,6 @@ class C_Penjualan extends BaseController
         ]);
     }
 
-    // ------------------------------------------------------------------
-    // STORE — validate stock, then atomically: deduct stok, insert
-    // penjualan + detail_penjualan, status = completed.
-    // ------------------------------------------------------------------
     public function store()
     {
         $rules = [
@@ -86,7 +76,6 @@ class C_Penjualan extends BaseController
                 ->with('error', 'Data produk pada keranjang tidak valid.');
         }
 
-        // --- Step 1: build line items + validate stock BEFORE touching anything ---
         $lineItems = [];
         $shortages = [];
         $totalHarga = 0;
@@ -146,7 +135,6 @@ class C_Penjualan extends BaseController
                 ->with('error', 'Jumlah bayar kurang dari total harga.');
         }
 
-        // --- Step 2: stock confirmed sufficient, commit atomically ---
         $db = \Config\Database::connect();
         $db->transStart();
 
@@ -206,9 +194,6 @@ class C_Penjualan extends BaseController
             ->with('success', 'Penjualan berhasil disimpan.');
     }
 
-    // ------------------------------------------------------------------
-    // DETAIL — show transaction + line items (for receipt-style view)
-    // ------------------------------------------------------------------
     public function detail(int $id): string
     {
         $penjualan = $this->model->findWithRelations($id);

@@ -13,9 +13,6 @@ class C_Auth extends BaseController
         $this->userModel = new M_User();
     }
 
-    /**
-     * Show the login form. If already logged in, redirect to dashboard.
-     */
     public function login()
     {
         if ($this->session->get('isLoggedIn')) {
@@ -25,9 +22,6 @@ class C_Auth extends BaseController
         return view('auth/login');
     }
 
-    /**
-     * Handle login form submission.
-     */
     public function attemptLogin()
     {
         $rules = [
@@ -47,16 +41,11 @@ class C_Auth extends BaseController
         $user = $this->userModel->findActiveByUsername($username);
 
         if ($user === null || ! $this->userModel->verifyPassword($password, $user)) {
-            // Deliberately vague message: don't reveal whether the
-            // username exists or the password was wrong.
-            // Note: failed attempts aren't written to log_activity here
-            // since there's no confirmed id_user to attribute them to.
             return redirect()->back()
                 ->withInput()
                 ->with('loginError', 'Username atau password salah.');
         }
 
-        // Regenerate session ID on privilege change to prevent session fixation.
         session()->regenerate();
 
         $this->session->set([
@@ -73,9 +62,6 @@ class C_Auth extends BaseController
         return redirect()->to('/dashboard');
     }
 
-    /**
-     * Log the current user out and destroy the session.
-     */
     public function logout()
     {
         $idUser = $this->currentUserId();

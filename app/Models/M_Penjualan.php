@@ -26,7 +26,7 @@ class M_Penjualan extends Model
         'status',
     ];
 
-    protected $useTimestamps = false; // table uses tanggal_penjualan instead
+    protected $useTimestamps = false;
     protected $dateFormat    = 'datetime';
 
     public const METODE_BAYAR = ['cash', 'debit', 'credit', 'qris'];
@@ -51,8 +51,6 @@ class M_Penjualan extends Model
     ];
 
     /**
-     * Search + paginate for the index page.
-     *
      * @return array<int, array<string, mixed>>
      */
     public function search(string $keyword = '', string $status = '', int $perPage = 10): array
@@ -78,8 +76,6 @@ class M_Penjualan extends Model
     }
 
     /**
-     * Find a single penjualan row joined with kasir name.
-     *
      * @return array<string, mixed>|null
      */
     public function findWithRelations(int $id): ?array
@@ -90,9 +86,6 @@ class M_Penjualan extends Model
             ->first();
     }
 
-    /**
-     * Generate the next sequential kode_penjualan, e.g. JL-0001, JL-0002, ...
-     */
     public function generateKodePenjualan(): string
     {
         $last = $this->select('kode_penjualan')
@@ -109,10 +102,6 @@ class M_Penjualan extends Model
         return 'JL-' . str_pad((string) $nextNumber, 4, '0', STR_PAD_LEFT);
     }
 
-    /**
-     * Generate the next sequential no_invoice, e.g. INV-20260620-0001
-     * (date-scoped so invoice numbers reset daily and stay readable).
-     */
     public function generateNoInvoice(): string
     {
         $today = date('Ymd');
@@ -130,9 +119,7 @@ class M_Penjualan extends Model
 
         return "INV-{$today}-" . str_pad((string) $nextNumber, 4, '0', STR_PAD_LEFT);
     }
-    /**
-     * Total revenue for today (completed transactions only).
-     */
+
     public function totalHariIni(): float
     {
         $result = $this->selectSum('total_harga')
@@ -143,9 +130,6 @@ class M_Penjualan extends Model
         return (float) ($result['total_harga'] ?? 0);
     }
 
-    /**
-     * Total revenue for the current calendar month (completed only).
-     */
     public function totalBulanIni(): float
     {
         $result = $this->selectSum('total_harga')
@@ -157,9 +141,6 @@ class M_Penjualan extends Model
         return (float) ($result['total_harga'] ?? 0);
     }
 
-    /**
-     * Count of completed transactions today.
-     */
     public function countHariIni(): int
     {
         return $this->where('status', 'completed')
@@ -168,11 +149,6 @@ class M_Penjualan extends Model
     }
 
     /**
-     * Daily revenue totals for the last $days days (completed only),
-     * shaped for a chart: ['labels' => [...], 'values' => [...]].
-     * Fills in zero for days with no transactions so the chart has
-     * no gaps.
-     *
      * @return array{labels: list<string>, values: list<float>}
      */
     public function getDailyRevenue(int $days = 7): array
@@ -204,9 +180,6 @@ class M_Penjualan extends Model
     }
 
     /**
-     * Get completed transactions within a date range, joined with kasir name.
-     * Used by the Laporan Penjualan module (table view, PDF, Excel).
-     *
      * @return array<int, array<string, mixed>>
      */
     public function getByDateRange(string $startDate, string $endDate): array
@@ -220,9 +193,6 @@ class M_Penjualan extends Model
             ->findAll();
     }
 
-    /**
-     * Sum of total_harga for a date range (completed only).
-     */
     public function sumByDateRange(string $startDate, string $endDate): float
     {
         $result = $this->selectSum('total_harga')

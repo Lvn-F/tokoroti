@@ -19,7 +19,7 @@ class M_DetailProduksi extends Model
         'jumlah_terpakai',
     ];
 
-    protected $useTimestamps = false; // table has no timestamp columns
+    protected $useTimestamps = false;
 
     protected $validationRules = [
         'id_produksi'     => 'required|integer',
@@ -28,9 +28,6 @@ class M_DetailProduksi extends Model
     ];
 
     /**
-     * Get all bahan baku usage rows for a given produksi, joined with
-     * bahan_baku for display (nama_bahan, satuan, kode_bahan).
-     *
      * @return array<int, array<string, mixed>>
      */
     public function getByProduksi(int $idProduksi): array
@@ -42,9 +39,6 @@ class M_DetailProduksi extends Model
     }
 
     /**
-     * Bulk insert usage rows for a produksi. Expects rows already
-     * shaped as [id_produksi, id_bahan, jumlah_terpakai].
-     *
      * @param array<int, array<string, mixed>> $rows
      */
     public function insertBatchRows(array $rows): bool

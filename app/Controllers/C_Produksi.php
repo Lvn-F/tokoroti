@@ -25,9 +25,6 @@ class C_Produksi extends BaseController
         $this->detailModel = new M_DetailProduksi();
     }
 
-    // ------------------------------------------------------------------
-    // INDEX — list with search + status filter + pagination
-    // ------------------------------------------------------------------
     public function index(): string
     {
         $keyword = $this->request->getGet('q') ?? '';
@@ -41,15 +38,12 @@ class C_Produksi extends BaseController
             'statusList' => M_Produksi::STATUS,
             'produksis'  => $this->model->search($keyword, $status, $perPage),
             'pager'      => $this->model->pager,
-            'model'      => $this->model, // for isEditable() in the view
+            'model'      => $this->model,
         ];
 
         return view('produksi/produksi_index', $data);
     }
 
-    // ------------------------------------------------------------------
-    // CREATE — show form (just registers intent, no stock movement yet)
-    // ------------------------------------------------------------------
     public function create(): string
     {
         return view('produksi/produksi_create', [
@@ -59,9 +53,6 @@ class C_Produksi extends BaseController
         ]);
     }
 
-    // ------------------------------------------------------------------
-    // STORE — handle form submission (status always starts as 'proses')
-    // ------------------------------------------------------------------
     public function store()
     {
         $rules = [
@@ -106,9 +97,6 @@ class C_Produksi extends BaseController
             ->with('success', 'Produksi berhasil dibuat dengan status Proses.');
     }
 
-    // ------------------------------------------------------------------
-    // DETAIL — show produksi info + bahan terpakai (if selesai)
-    // ------------------------------------------------------------------
     public function detail(int $id): string
     {
         $produksi = $this->model->findWithRelations($id);
@@ -128,17 +116,6 @@ class C_Produksi extends BaseController
         ]);
     }
 
-    // ------------------------------------------------------------------
-    // UPDATE STATUS — the critical transition logic
-    //
-    //   proses -> selesai : check stock, deduct bahan baku, insert
-    //                       detail_produksi, add to produk.stok
-    //   proses -> gagal   : just flip status, nothing was ever
-    //                       deducted while 'proses', so nothing to undo
-    //
-    // Both selesai and gagal are terminal — no further transitions
-    // are allowed once set (enforced by checking isEditable() first).
-    // ------------------------------------------------------------------
     public function updateStatus(int $id)
     {
         $produksi = $this->model->find($id);
@@ -172,15 +149,9 @@ class C_Produksi extends BaseController
                 ->with('success', 'Status produksi diubah menjadi Gagal.');
         }
 
-        // newStatus === 'selesai' — the real work happens here.
         return $this->completeProduksi($produksi);
     }
 
-    /**
-     * Handles the proses -> selesai transition:
-     * validates stock sufficiency, then atomically deducts bahan baku,
-     * records usage in detail_produksi, and adds output to produk.stok.
-     */
     protected function completeProduksi(array $produksi)
     {
         $idProduksi = (int) $produksi['id_produksi'];
@@ -193,7 +164,6 @@ class C_Produksi extends BaseController
                 ->with('error', 'Produk ini belum memiliki resep. Tambahkan resep terlebih dahulu sebelum menyelesaikan produksi.');
         }
 
-        // --- Step 1: validate stock sufficiency for every bahan BEFORE touching anything ---
         $shortages = [];
 
         foreach ($resep as $item) {
@@ -217,7 +187,6 @@ class C_Produksi extends BaseController
                 ->with('error', 'Stok bahan baku tidak cukup: ' . implode('; ', $shortages));
         }
 
-        // --- Step 2: stock is sufficient, perform the deduction atomically ---
         $db = \Config\Database::connect();
         $db->transStart();
 
@@ -226,7 +195,6 @@ class C_Produksi extends BaseController
         foreach ($resep as $item) {
             $jumlahTerpakai = (float) $item['jumlah_dibutuhkan'] * $jumlah;
 
-            // Deduct from bahan_baku.stok
             $this->bahanModel->update($item['id_bahan'], [
                 'stok' => (float) $item['stok'] - $jumlahTerpakai,
             ]);
@@ -240,13 +208,11 @@ class C_Produksi extends BaseController
 
         $this->detailModel->insertBatchRows($detailRows);
 
-        // Add finished goods to produk.stok
         $produk = $this->produkModel->find($produksi['id_produk']);
         $this->produkModel->update($produksi['id_produk'], [
             'stok' => (int) $produk['stok'] + $jumlah,
         ]);
 
-        // Flip produksi status
         $this->model->update($idProduksi, ['status' => 'selesai']);
 
         $db->transComplete();

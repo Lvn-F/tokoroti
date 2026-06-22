@@ -21,7 +21,6 @@ class Dashboard extends BaseController
         $data = [
             'pageTitle' => 'Dashboard',
 
-            // Stat cards
             'totalProduk'      => $produkModel->countActive(),
             'totalLowStock'    => $bahanModel->countLowStock(),
             'totalPenjualanHariIni' => $penjualanModel->countHariIni(),
@@ -29,13 +28,10 @@ class Dashboard extends BaseController
             'omsetBulanIni'    => $penjualanModel->totalBulanIni(),
             'produksiByStatus' => $produksiModel->countByStatus(),
 
-            // Charts
             'revenueChart' => $penjualanModel->getDailyRevenue(7),
 
-            // Recent activity
             'recentLogs' => $logModel->getRecent(10),
 
-            // Low stock list (for the warning table)
             'lowStockItems' => $bahanModel->where('stok <=', 'stok_minimum', false)
                 ->orderBy('stok', 'ASC')
                 ->findAll(5),

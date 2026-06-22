@@ -6,23 +6,13 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 
-// ---------------------------------------------------------------------
-// Public routes (no auth required)
-// ---------------------------------------------------------------------
 $routes->get('/', 'C_Auth::login');
 $routes->get('login', 'C_Auth::login');
 $routes->post('login', 'C_Auth::attemptLogin');
 $routes->get('logout', 'C_Auth::logout');
 
-// ---------------------------------------------------------------------
-// Authenticated routes (any logged-in role)
-// ---------------------------------------------------------------------
 $routes->get('dashboard', 'Dashboard::index', ['filter' => 'auth']);
 
-// ---------------------------------------------------------------------
-// Master Data — admin manages all; kasir/produser may need read access
-// later as their modules are built (adjust per-route as needed).
-// ---------------------------------------------------------------------
 $routes->group('kategori', ['filter' => 'auth:admin'], static function ($routes): void {
     $routes->get('/', 'C_KategoriProduk::index');
     $routes->get('create', 'C_KategoriProduk::create');
@@ -54,9 +44,6 @@ $routes->group('produk', ['filter' => 'auth:admin'], static function ($routes): 
     $routes->get('resep/(:num)/delete/(:num)', 'C_Resep::delete/$1/$2');
 });
 
-// ---------------------------------------------------------------------
-// Transaksi — produser handles produksi, kasir handles penjualan.
-// ---------------------------------------------------------------------
 $routes->group('produksi', ['filter' => 'auth:admin,produser'], static function ($routes): void {
     $routes->get('/', 'C_Produksi::index');
     $routes->get('create', 'C_Produksi::create');
@@ -72,9 +59,6 @@ $routes->group('penjualan', ['filter' => 'auth:admin,kasir'], static function ($
     $routes->get('detail/(:num)', 'C_Penjualan::detail/$1');
 });
 
-// ---------------------------------------------------------------------
-// Laporan — admin only for now.
-// ---------------------------------------------------------------------
 $routes->group('laporan', ['filter' => 'auth:admin'], static function ($routes): void {
     $routes->get('penjualan', 'C_Laporan::penjualan');
     $routes->get('penjualan/export-pdf', 'C_Laporan::exportPenjualanPdf');
@@ -85,9 +69,6 @@ $routes->group('laporan', ['filter' => 'auth:admin'], static function ($routes):
     $routes->get('produksi/export-excel', 'C_Laporan::exportProduksiExcel');
 });
 
-// ---------------------------------------------------------------------
-// User management (multi-user) — admin only.
-// ---------------------------------------------------------------------
 $routes->group('users', ['filter' => 'auth:admin'], static function ($routes): void {
     $routes->get('/', 'Users::index');
     $routes->get('create', 'Users::create');

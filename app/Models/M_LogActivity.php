@@ -23,7 +23,7 @@ class M_LogActivity extends Model
     protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
-    protected $updatedField  = ''; // disable, column doesn't exist
+    protected $updatedField  = '';
     protected $deletedField  = '';
 
     protected $validationRules = [
@@ -33,8 +33,6 @@ class M_LogActivity extends Model
     ];
 
     /**
-     * Get recent activity logs, newest first, optionally filtered by user or module.
-     *
      * @return array<int, array<string, mixed>>
      */
     public function getRecent(int $limit = 20, ?int $idUser = null, ?string $modul = null): array

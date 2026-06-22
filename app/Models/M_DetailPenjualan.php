@@ -32,9 +32,6 @@ class M_DetailPenjualan extends Model
     ];
 
     /**
-     * Get all line items for a given penjualan, joined with produk
-     * for display (nama_produk, kode_produk).
-     *
      * @return array<int, array<string, mixed>>
      */
     public function getByPenjualan(int $idPenjualan): array
@@ -46,9 +43,6 @@ class M_DetailPenjualan extends Model
     }
 
     /**
-     * Bulk insert line items. Expects rows already shaped as
-     * [id_penjualan, id_produk, harga, qty, subtotal].
-     *
      * @param array<int, array<string, mixed>> $rows
      */
     public function insertBatchRows(array $rows): bool

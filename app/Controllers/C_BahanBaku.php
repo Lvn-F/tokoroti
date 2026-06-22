@@ -13,9 +13,6 @@ class C_BahanBaku extends BaseController
         $this->model = new M_BahanBaku();
     }
 
-    // ------------------------------------------------------------------
-    // INDEX — list with search + pagination
-    // ------------------------------------------------------------------
     public function index(): string
     {
         $keyword = $this->request->getGet('q') ?? '';
@@ -32,9 +29,6 @@ class C_BahanBaku extends BaseController
         return view('bahanbaku/bahanbaku_index', $data);
     }
 
-    // ------------------------------------------------------------------
-    // CREATE — show form
-    // ------------------------------------------------------------------
     public function create(): string
     {
         return view('bahanbaku/bahanbaku_create', [
@@ -44,9 +38,6 @@ class C_BahanBaku extends BaseController
         ]);
     }
 
-    // ------------------------------------------------------------------
-    // STORE — handle form submission
-    // ------------------------------------------------------------------
     public function store()
     {
         $rules = [
@@ -83,9 +74,6 @@ class C_BahanBaku extends BaseController
             ->with('success', 'Bahan baku berhasil ditambahkan.');
     }
 
-    // ------------------------------------------------------------------
-    // EDIT — show form pre-filled
-    // ------------------------------------------------------------------
     public function edit(int $id): string
     {
         $bahan = $this->model->find($id);

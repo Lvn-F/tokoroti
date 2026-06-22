@@ -21,7 +21,7 @@ class M_KategoriProduk extends Model
     protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
-    protected $updatedField  = '';   // table has no updated_at column
+    protected $updatedField  = '';
     protected $deletedField  = '';
 
     protected $validationRules = [
@@ -37,8 +37,6 @@ class M_KategoriProduk extends Model
     ];
 
     /**
-     * Search + paginate for the index page.
-     *
      * @return array<int, array<string, mixed>>
      */
     public function search(string $keyword = '', int $perPage = 10): array

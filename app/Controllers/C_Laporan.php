@@ -20,10 +20,6 @@ class C_Laporan extends BaseController
         $this->produksiModel  = new M_Produksi();
     }
 
-    // ==================================================================
-    // LAPORAN PENJUALAN
-    // ==================================================================
-
     public function penjualan(): string
     {
         [$start, $end] = $this->resolveDateRange();
@@ -87,7 +83,6 @@ class C_Laporan extends BaseController
             $rowNum++;
         }
 
-        // Total row
         $sheet->setCellValue("F{$rowNum}", 'TOTAL');
         $sheet->getStyle("F{$rowNum}")->getFont()->setBold(true);
         $sheet->setCellValue("G{$rowNum}", array_sum(array_column($rows, 'total_harga')));
@@ -101,10 +96,6 @@ class C_Laporan extends BaseController
 
         return $this->streamExcel($spreadsheet, "laporan-penjualan-{$start}_to_{$end}.xlsx");
     }
-
-    // ==================================================================
-    // LAPORAN PRODUKSI
-    // ==================================================================
 
     public function produksi(): string
     {
@@ -181,14 +172,7 @@ class C_Laporan extends BaseController
         return $this->streamExcel($spreadsheet, "laporan-produksi-{$start}_to_{$end}.xlsx");
     }
 
-    // ==================================================================
-    // Helpers
-    // ==================================================================
-
     /**
-     * Resolve start/end date from query params, defaulting to the
-     * current calendar month if not provided or invalid.
-     *
      * @return array{0: string, 1: string}
      */
     protected function resolveDateRange(): array
@@ -204,7 +188,6 @@ class C_Laporan extends BaseController
         $start = $isValid($start) ? $start : $defaultStart;
         $end   = $isValid($end) ? $end : $defaultEnd;
 
-        // Guard against a reversed range.
         if (strtotime($start) > strtotime($end)) {
             [$start, $end] = [$end, $start];
         }
@@ -212,9 +195,6 @@ class C_Laporan extends BaseController
         return [$start, $end];
     }
 
-    /**
-     * Render HTML to a PDF and stream it as a download.
-     */
     protected function streamPdf(string $html, string $filename)
     {
         $options = new Options();
@@ -232,9 +212,6 @@ class C_Laporan extends BaseController
             ->setBody($dompdf->output());
     }
 
-    /**
-     * Write a Spreadsheet to xlsx bytes and stream it as a download.
-     */
     protected function streamExcel(Spreadsheet $spreadsheet, string $filename)
     {
         $writer = new Xlsx($spreadsheet);

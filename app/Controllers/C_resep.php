@@ -19,9 +19,6 @@ class C_Resep extends BaseController
         $this->bahanModel  = new M_BahanBaku();
     }
 
-    // ------------------------------------------------------------------
-    // INDEX — show current recipe for a produk + form to add a bahan
-    // ------------------------------------------------------------------
     public function index(int $idProduk): string
     {
         $produk = $this->produkModel->find($idProduk);
@@ -33,7 +30,6 @@ class C_Resep extends BaseController
 
         $resep = $this->model->getByProduk($idProduk);
 
-        // Only offer bahan baku not already in this recipe, to avoid duplicates.
         $usedBahanIds = array_column($resep, 'id_bahan');
 
         $availableBahan = $this->bahanModel
@@ -55,9 +51,6 @@ class C_Resep extends BaseController
         ]);
     }
 
-    // ------------------------------------------------------------------
-    // STORE — add one bahan baku + quantity to the produk's recipe
-    // ------------------------------------------------------------------
     public function store(int $idProduk)
     {
         $produk = $this->produkModel->find($idProduk);
@@ -80,7 +73,6 @@ class C_Resep extends BaseController
 
         $idBahan = $this->request->getPost('id_bahan');
 
-        // Guard against duplicate bahan in the same recipe (one row per bahan).
         $exists = $this->model
             ->where('id_produk', $idProduk)
             ->where('id_bahan', $idBahan)
@@ -108,9 +100,6 @@ class C_Resep extends BaseController
             ->with('success', 'Bahan berhasil ditambahkan ke resep.');
     }
 
-    // ------------------------------------------------------------------
-    // DELETE — remove a bahan baku from the produk's recipe
-    // ------------------------------------------------------------------
     public function delete(int $idProduk, int $idResep)
     {
         $produk = $this->produkModel->find($idProduk);

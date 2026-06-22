@@ -32,9 +32,6 @@ class M_Resep extends Model
     ];
 
     /**
-     * Get the full recipe (bill of materials) for a produk, joined
-     * with bahan_baku for stock/price/unit info.
-     *
      * @return array<int, array<string, mixed>>
      */
     public function getByProduk(int $idProduk): array

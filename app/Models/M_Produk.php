@@ -53,16 +53,10 @@ class M_Produk extends Model
             'decimal'  => 'Harga harus berupa angka.',
         ],
     ];
-
-    /**
-     * Directory (relative to FCPATH/public) where product images are stored.
-     */
+    
     public const UPLOAD_PATH = 'uploads/produk/';
 
     /**
-     * Search + paginate for the index page. Joins kategori_produk so the
-     * view can show the category name without an extra query per row.
-     *
      * @return array<int, array<string, mixed>>
      */
     public function search(string $keyword = '', int $perPage = 10): array
@@ -83,10 +77,6 @@ class M_Produk extends Model
     }
 
     /**
-     * Find a single produk row joined with its category name.
-     * Useful for detail/edit views that want nama_kategori without
-     * a second lookup.
-     *
      * @return array<string, mixed>|null
      */
     public function findWithKategori(int $id): ?array
@@ -97,9 +87,6 @@ class M_Produk extends Model
             ->first();
     }
 
-    /**
-     * Generate the next sequential kode_produk, e.g. PRD-0001, PRD-0002, ...
-     */
     public function generateKodeProduk(): string
     {
         $last = $this->select('kode_produk')
@@ -116,11 +103,6 @@ class M_Produk extends Model
         return 'PRD-' . str_pad((string) $nextNumber, 4, '0', STR_PAD_LEFT);
     }
 
-    /**
-     * Public URL for a product's image, or null if it has none.
-     * Does not check file existence on disk — that's the controller's job
-     * if it needs to guard against missing files.
-     */
     public function imageUrl(?string $filename): ?string
     {
         if (empty($filename)) {
@@ -129,9 +111,6 @@ class M_Produk extends Model
 
         return base_url(self::UPLOAD_PATH . $filename);
     }
-    /**
-     * Count active products and total stock value (for dashboard cards).
-     */
     public function countActive(): int
     {
         return $this->where('status', 'active')->countAllResults();
