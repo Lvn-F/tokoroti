@@ -11,24 +11,30 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #f4f1ee;
+            background-color: #212529;
+            color : #dee2e6;
         }
         .login-card {
             width: 100%;
             max-width: 400px;
+            border-color : #495057;
         }
         .login-card .card {
             border: none;
             border-radius: 12px;
             box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            background-color: #343a40;
+            color : #dee2e6;
         }
         .btn-brand {
             background-color: #dd4814;
             border-color: #dd4814;
+            color : #dee2e6;
         }
         .btn-brand:hover {
             background-color: #c33f10;
             border-color: #c33f10;
+            
         }
     </style>
 </head>
@@ -38,7 +44,7 @@
     <div class="card p-4 p-md-5">
         <div class="card-body p-0">
             <h1 class="h4 mb-1">Toko Roti</h1>
-            <p class="text-muted small mb-4">Masuk ke akun Anda</p>
+            <!-- <p class="text-muted small mb-4">Masuk ke akun Anda</p> -->
 
             <?php if (session()->getFlashdata('loginError')) : ?>
                 <div class="alert alert-danger" role="alert">

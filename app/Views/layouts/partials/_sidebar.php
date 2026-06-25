@@ -120,16 +120,16 @@ function sidebarActive(string $prefix, string $currentUri): string
         <!-- PENGATURAN -->
         <?php if ($role === 'admin') : ?>
         <li class="nav-item mt-2">
-            <span class="nav-link text-uppercase text-secondary small py-1 ps-2" style="font-size:.7rem;letter-spacing:.08em;">
+            <!-- <span class="nav-link text-uppercase text-secondary small py-1 ps-2" style="font-size:.7rem;letter-spacing:.08em;">
                 Pengaturan
-            </span>
+            </span> -->
         </li>
         <li class="nav-item">
             <a href="<?= site_url('users') ?>"
                class="nav-link text-white <?= sidebarActive('users', $currentUri) ?>">
-                <i class="bi bi-people me-2"></i> Manajemen User
-            </a>
-        </li>
+                <!-- <i class="bi bi-people me-2"></i> Manajemen User -->
+            <!-- </a> -->
+        <!-- </li> -->
         <?php endif; ?>
 
     </ul>
