@@ -42,6 +42,44 @@
                     <dd class="col-7"><?= (int) $produk['stok'] ?> unit</dd>
                 </dl>
             </div>
+
+            <!-- HPP / cost summary -->
+            <div class="card-body border-top pt-3">
+                <h6 class="text-secondary text-uppercase small mb-3" style="font-size:.7rem;letter-spacing:.06em;">
+                    Estimasi Biaya Produksi (per Unit)
+                </h6>
+                <dl class="row mb-0 small">
+                    <dt class="col-7">HPP (Harga Pokok Produksi)</dt>
+                    <dd class="col-5 text-end fw-semibold">
+                        Rp <?= number_format($totalBiaya, 0, ',', '.') ?>
+                    </dd>
+
+                    <dt class="col-7">Harga Jual</dt>
+                    <dd class="col-5 text-end">
+                        Rp <?= number_format((float) $produk['harga'], 0, ',', '.') ?>
+                    </dd>
+
+                    <dt class="col-7 fw-semibold">Margin / Laba Kotor</dt>
+                    <dd class="col-5 text-end fw-bold <?= $margin >= 0 ? 'text-success' : 'text-danger' ?>">
+                        Rp <?= number_format($margin, 0, ',', '.') ?>
+                    </dd>
+
+                    <dt class="col-7 text-secondary">Margin %</dt>
+                    <dd class="col-5 text-end text-secondary">
+                        <?= number_format($marginPct, 1) ?>%
+                    </dd>
+                </dl>
+                <?php if ($margin < 0) : ?>
+                    <p class="text-danger small mt-2 mb-0">
+                        <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                        Harga jual lebih rendah dari biaya bahan baku.
+                    </p>
+                <?php endif; ?>
+                <p class="text-secondary small mt-2 mb-0" style="font-size:.7rem;">
+                    * Dihitung dari harga beli bahan baku saat ini, bukan histori harga saat produksi berlangsung.
+                </p>
+            </div>
+
             <div class="card-footer">
                 <?php if (empty($resep)) : ?>
                     <p class="text-warning small mb-0">
@@ -71,19 +109,21 @@
                             <tr>
                                 <th>Bahan Baku</th>
                                 <th class="text-end">Jumlah Dibutuhkan</th>
+                                <th class="text-end">Biaya/Unit</th>
                                 <th style="width:90px;" class="text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php if (empty($resep)) : ?>
                                 <tr>
-                                    <td colspan="3" class="text-center text-secondary py-4">
+                                    <td colspan="4" class="text-center text-secondary py-4">
                                         <i class="bi bi-inbox fs-3 d-block mb-2"></i>
                                         Belum ada bahan dalam resep ini.
                                     </td>
                                 </tr>
                             <?php else : ?>
                                 <?php foreach ($resep as $r) : ?>
+                                    <?php $biayaBahan = (float) $r['jumlah_dibutuhkan'] * (float) $r['harga_beli']; ?>
                                     <tr>
                                         <td>
                                             <?= esc($r['nama_bahan']) ?>
@@ -93,13 +133,19 @@
                                             <?= number_format((float) $r['jumlah_dibutuhkan'], 2) ?> <?= esc($r['satuan']) ?>
                                             <span class="text-secondary small d-block">per 1 unit produk</span>
                                         </td>
+                                        <td class="text-end">
+                                            Rp <?= number_format($biayaBahan, 0, ',', '.') ?>
+                                            <span class="text-secondary small d-block">
+                                                @ Rp <?= number_format((float) $r['harga_beli'], 0, ',', '.') ?>/<?= esc($r['satuan']) ?>
+                                            </span>
+                                        </td>
                                         <td class="text-center">
                                             <button type="button"
                                                     class="btn btn-sm btn-outline-danger"
                                                     title="Hapus"
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#deleteResepModal"
-                                                    data-id="<?= $r['id_resep'] ?>"
+                                                    data-id="<?= $r['id_bahan'] ?>"
                                                     data-nama="<?= esc($r['nama_bahan']) ?>">
                                                 <i class="bi bi-trash3"></i>
                                             </button>
@@ -108,6 +154,17 @@
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </tbody>
+                        <?php if (! empty($resep)) : ?>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="2" class="text-end fw-semibold">Total HPP / Unit</td>
+                                    <td class="text-end fw-bold text-brand">
+                                        Rp <?= number_format($totalBiaya, 0, ',', '.') ?>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        <?php endif; ?>
                     </table>
                 </div>
             </div>

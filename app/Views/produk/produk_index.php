@@ -59,6 +59,7 @@
                         <th>Nama Produk</th>
                         <th>Kategori</th>
                         <th class="text-end">Harga</th>
+                        <th class="text-end">HPP / Margin</th>
                         <th class="text-end">Stok</th>
                         <th class="text-center">Status</th>
                         <th style="width:120px;" class="text-center">Aksi</th>
@@ -98,6 +99,22 @@
                                     <?= $p['nama_kategori'] ? esc($p['nama_kategori']) : '<span class="fst-italic">—</span>' ?>
                                 </td>
                                 <td class="text-end">Rp <?= number_format((float) $p['harga'], 0, ',', '.') ?></td>
+                                <td class="text-end">
+                                    <?php
+                                    $hpp = $hppMap[(int) $p['id_produk']] ?? null;
+                                    ?>
+                                    <?php if ($hpp === null) : ?>
+                                        <span class="text-secondary small fst-italic">Belum ada resep</span>
+                                    <?php else : ?>
+                                        <?php
+                                        $margin = (float) $p['harga'] - $hpp;
+                                        ?>
+                                        <div class="small">Rp <?= number_format($hpp, 0, ',', '.') ?></div>
+                                        <div class="small <?= $margin >= 0 ? 'text-success' : 'text-danger' ?>">
+                                            <?= $margin >= 0 ? '+' : '' ?>Rp <?= number_format($margin, 0, ',', '.') ?>
+                                        </div>
+                                    <?php endif; ?>
+                                </td>
                                 <td class="text-end"><?= (int) $p['stok'] ?></td>
                                 <td class="text-center">
                                     <?php if ($p['status'] === 'active') : ?>

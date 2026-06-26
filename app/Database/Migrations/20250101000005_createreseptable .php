@@ -9,12 +9,6 @@ class CreateResepTable extends Migration
     public function up()
     {
         $this->forge->addField([
-            'id_resep' => [
-                'type'           => 'INT',
-                'constraint'     => 11,
-                'unsigned'       => true,
-                'auto_increment' => true,
-            ],
             'id_produk' => [
                 'type'       => 'INT',
                 'constraint' => 11,
@@ -35,9 +29,9 @@ class CreateResepTable extends Migration
             ],
         ]);
 
-        $this->forge->addPrimaryKey('id_resep');
-        $this->forge->addKey('id_produk');
-        $this->forge->addKey('id_bahan');
+        // Composite primary key — also serves as the unique constraint
+        // that used to be enforced manually in the controller.
+        $this->forge->addPrimaryKey(['id_produk', 'id_bahan']);
         $this->forge->addForeignKey('id_produk', 'produk', 'id_produk', '', 'CASCADE');
         $this->forge->addForeignKey('id_bahan', 'bahan_baku', 'id_bahan', '', 'CASCADE');
         $this->forge->createTable('resep', true);

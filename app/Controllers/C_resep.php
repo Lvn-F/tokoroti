@@ -43,11 +43,19 @@ class C_Resep extends BaseController
             ));
         }
 
+        $totalBiaya = $this->model->getTotalBiayaByProduk($idProduk);
+        $hargaJual  = (float) $produk['harga'];
+        $margin     = $hargaJual - $totalBiaya;
+        $marginPct  = $hargaJual > 0 ? ($margin / $hargaJual) * 100 : 0;
+
         return view('resep/resep_index', [
             'pageTitle'      => 'Resep - ' . $produk['nama_produk'],
             'produk'         => $produk,
             'resep'          => $resep,
             'availableBahan' => $availableBahan,
+            'totalBiaya'     => $totalBiaya,
+            'margin'         => $margin,
+            'marginPct'      => $marginPct,
         ]);
     }
 
@@ -71,12 +79,9 @@ class C_Resep extends BaseController
                 ->with('errors', $this->validator->getErrors());
         }
 
-        $idBahan = $this->request->getPost('id_bahan');
+        $idBahan = (int) $this->request->getPost('id_bahan');
 
-        $exists = $this->model
-            ->where('id_produk', $idProduk)
-            ->where('id_bahan', $idBahan)
-            ->first();
+        $exists = $this->model->findByKeys($idProduk, $idBahan);
 
         if ($exists !== null) {
             return redirect()->to('/produk/resep/' . $idProduk)
@@ -100,7 +105,7 @@ class C_Resep extends BaseController
             ->with('success', 'Bahan berhasil ditambahkan ke resep.');
     }
 
-    public function delete(int $idProduk, int $idResep)
+    public function delete(int $idProduk, int $idBahan)
     {
         $produk = $this->produkModel->find($idProduk);
 
@@ -109,16 +114,16 @@ class C_Resep extends BaseController
                 ->with('error', 'Produk tidak ditemukan.');
         }
 
-        $resepRow = $this->model->find($idResep);
+        $resepRow = $this->model->findByKeys($idProduk, $idBahan);
 
-        if ($resepRow === null || (int) $resepRow['id_produk'] !== $idProduk) {
+        if ($resepRow === null) {
             return redirect()->to('/produk/resep/' . $idProduk)
                 ->with('error', 'Item resep tidak ditemukan.');
         }
 
-        $bahan = $this->bahanModel->find($resepRow['id_bahan']);
+        $bahan = $this->bahanModel->find($idBahan);
 
-        $this->model->delete($idResep);
+        $this->model->deleteByKeys($idProduk, $idBahan);
 
         $this->logActivity(
             "Menghapus resep: {$produk['nama_produk']} - " . ($bahan['nama_bahan'] ?? 'bahan tidak diketahui'),

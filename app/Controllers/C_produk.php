@@ -25,12 +25,18 @@ class C_Produk extends BaseController
         $keyword = $this->request->getGet('q') ?? '';
         $perPage = 10;
 
+        $produks = $this->model->search($keyword, $perPage);
+
+        $resepModel = new \App\Models\M_Resep();
+        $hppMap     = $resepModel->getTotalBiayaForProduks(array_column($produks, 'id_produk'));
+
         $data = [
             'pageTitle' => 'Produk',
             'keyword'   => $keyword,
-            'produks'   => $this->model->search($keyword, $perPage),
+            'produks'   => $produks,
+            'hppMap'    => $hppMap, // [id_produk => hpp]
             'pager'     => $this->model->pager,
-            'model'     => $this->model, // for imageUrl() in the view
+            'model'     => $this->model,
         ];
 
         return view('produk/produk_index', $data);
