@@ -59,6 +59,14 @@ function sidebarActive(string $prefix, string $currentUri): string
             </a>
         </li>
         <?php endif; ?>
+        <?php if (in_array($role, ['admin', 'produser'], true)) : ?>
+        <li class="nav-item">
+            <a href="<?= site_url('beli-bahan') ?>"
+            class="nav-link text-white <?= sidebarActive('beli-bahan', $currentUri) ?>">
+                <i class="bi bi-cart-plus me-2"></i> Beli Bahan
+            </a>
+        </li>
+        <?php endif; ?>
 
         <?php if ($role === 'admin') : ?>
         <li class="nav-item">

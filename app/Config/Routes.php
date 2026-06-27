@@ -30,6 +30,12 @@ $routes->group('bahan-baku', ['filter' => 'auth:admin,produser'], static functio
     $routes->post('update/(:num)', 'C_BahanBaku::update/$1');
     $routes->get('delete/(:num)', 'C_BahanBaku::delete/$1');
 });
+$routes->group('beli-bahan', ['filter' => 'auth:admin,produser'], static function ($routes): void {
+    $routes->get('/', 'C_BeliBahan::index');
+    $routes->get('create', 'C_BeliBahan::create');
+    $routes->post('store', 'C_BeliBahan::store');
+    $routes->get('compatible-units/(:num)', 'C_BeliBahan::compatibleUnits/$1');
+});
 
 $routes->group('produk', ['filter' => 'auth:admin'], static function ($routes): void {
     $routes->get('/', 'C_Produk::index');

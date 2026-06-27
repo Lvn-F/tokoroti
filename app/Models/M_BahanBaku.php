@@ -29,16 +29,28 @@ class M_BahanBaku extends Model
     protected $deletedField  = '';
 
     /**
+     * Base/storage units only. Purchase-time units (kg, liter) live in
+     * M_BeliBahan::SATUAN_BELI and get converted into these before
+     * touching stok. See M_BeliBahan::CONVERSION.
+     *
+     * 'pcs' and 'sdt' intentionally removed - 'butir' is the only
+     * countable/no-conversion unit going forward.
+     *
      * @var list<string>
      */
-    public const SATUAN = ['pcs', 'kg', 'gram', 'liter', 'ml', 'butir','sdt'];
+    public const SATUAN = ['gram', 'ml', 'butir'];
 
+    /**
+     * NOTE: 'stok' and 'harga_beli' are intentionally NOT required here.
+     * They are no longer set by the user through the bahan_baku form -
+     * stok starts at 0 on create and is only ever incremented by
+     * M_BeliBahan::recordPurchase(), which also overwrites harga_beli
+     * with the latest purchase's per-base-unit price.
+     */
     protected $validationRules = [
         'nama_bahan'   => 'required|max_length[100]',
-        'satuan'       => 'required|in_list[pcs,kg,gram,liter,ml,butir,sdt]',
-        'stok'         => 'permit_empty|decimal',
+        'satuan'       => 'required|in_list[gram,ml,butir]',
         'stok_minimum' => 'permit_empty|decimal',
-        'harga_beli'   => 'required|decimal',
     ];
 
     protected $validationMessages = [
@@ -47,12 +59,8 @@ class M_BahanBaku extends Model
             'max_length' => 'Nama bahan maksimal 100 karakter.',
         ],
         'satuan' => [
-            'required' => 'Satuan wajib dipilih.',
-            'in_list'  => 'Satuan tidak valid.',
-        ],
-        'harga_beli' => [
-            'required' => 'Harga beli wajib diisi.',
-            'decimal'  => 'Harga beli harus berupa angka.',
+            'required' => 'Satuan dasar wajib dipilih.',
+            'in_list'  => 'Satuan dasar tidak valid.',
         ],
     ];
 
@@ -96,6 +104,7 @@ class M_BahanBaku extends Model
     {
         return (float) $bahan['stok'] <= (float) $bahan['stok_minimum'];
     }
+
     public function countLowStock(): int
     {
         return $this->where('stok <=', 'stok_minimum', false)->countAllResults();
